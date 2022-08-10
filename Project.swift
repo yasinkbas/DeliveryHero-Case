@@ -20,6 +20,7 @@ let appTarget = Target(
         .xcframework(path: "Frameworks/GRDB.xcframework"),
         
         // Internal Kits
+        .project(target: "NetworkManagerKit", path: .relativeToManifest("Kits/NetworkManagerKit")),
         
         // Internal Modules
     ]
