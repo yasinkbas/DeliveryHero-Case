@@ -17,7 +17,6 @@ let appTarget = Target(
         // Externals
         .external(name: "NLab"),
         .external(name: "UILab"),
-        .xcframework(path: "Frameworks/GRDB.xcframework"),
         
         // Internal Kits
         .project(target: "NetworkManagerKit", path: .relativeToManifest("Kits/NetworkManagerKit")),

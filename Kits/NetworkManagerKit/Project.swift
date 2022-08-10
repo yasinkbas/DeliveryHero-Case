@@ -17,7 +17,5 @@ let project = Project(
             infoPlist: .default,
             sources: ["Sources/**"],
             resources: [],
-            dependencies: [
-                .external(name: "NLab")
-            ])
+            dependencies: [])
     ])

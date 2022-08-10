@@ -19,8 +19,6 @@ let project = Project(
             dependencies: [
                 .project(target: "DependencyManagerKit", path: .relativeToManifest("../../Kits/DependencyManagerKit")),
                 .project(target: "NetworkManagerKit", path: .relativeToManifest("../../Kits/NetworkManagerKit")),
-                .external(name: "NLab"),
-                .external(name: "UILab")
             ]),
         Target(
             name: "\(projectName)Tests",
