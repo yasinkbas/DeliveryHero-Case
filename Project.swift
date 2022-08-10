@@ -24,6 +24,7 @@ let appTarget = Target(
         .project(target: "DependencyManagerKit", path: .relativeToManifest("Kits/DependencyManagerKit")),
         
         // Internal Modules
+        .project(target: "MovieModule", path: .relativeToManifest("Modules/MovieModule")),
     ]
 )
 
