@@ -1,0 +1,15 @@
+### Xcode ###
+Tuist/Dependencies/
+*.build/
+Derived**/
+xcuserdata
+*.xccheckout
+*.moved-aside
+DerivedData
+*.xcuserstate
+.DS_Store
+*.pyc
+*.pbxproj
+*.xcodeproj/
+*.xcworkspace/
+*.xcscheme
