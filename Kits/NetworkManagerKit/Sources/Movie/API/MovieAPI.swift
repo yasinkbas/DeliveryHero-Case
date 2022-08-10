@@ -18,7 +18,7 @@ public class MovieAPI {
         NLTaskPoint(client: client)
             .path("movie/popular")
             .method(.get)
-            .registerMovieDBApiKey()
+            .injectMovieDBApiKey()
             .addParameter(.init(name: "page", value: page))
             .build().and.direct()
     }

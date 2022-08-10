@@ -24,7 +24,7 @@ final class NetworkClientHandler {
 }
 
 extension NLTaskPoint {
-    func registerMovieDBApiKey() -> Self {
+    func injectMovieDBApiKey() -> Self {
         addParameter(.init(name: "api_key", value: NetworkConfigs.themoviedbApiKey))
     }
 }
