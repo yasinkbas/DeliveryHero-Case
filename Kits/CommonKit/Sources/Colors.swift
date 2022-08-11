@@ -9,5 +9,6 @@
 import UIKit
 
 public enum Colors {
-    public static let background = #colorLiteral(red: 0.1118764809, green: 0.0308152651, blue: 0.2321220013, alpha: 1)
+    public static let background = #colorLiteral(red: 0.1483550668, green: 0.1483550668, blue: 0.1483550668, alpha: 1)
+    public static let navigationBackground = #colorLiteral(red: 0.05207981427, green: 0.05207981427, blue: 0.05207981427, alpha: 1)
 }
