@@ -17,9 +17,6 @@ public class MovieModule {
 // MARK: - MovieModuleInterface
 extension MovieModule: MovieModuleInterface {
     public func movieListViewController() -> UIViewController {
-        // TODO: return movieListViewController
-        let dummyViewController = UIViewController()
-        dummyViewController.view.backgroundColor = .red
-        return dummyViewController
+        MovieListRouter.createModule()
     }
 }
