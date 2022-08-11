@@ -33,6 +33,7 @@ extension MovieListPresenter: MovieListPresenterInterface {
     func viewDidLoad() {
         view?.prepareUI()
         interactor.fetchPopularMovies()
+        view?.showEmptyView()
     }
 }
 

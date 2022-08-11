@@ -7,9 +7,20 @@
 //
 
 import UIKit
+import CommonKit
 
-protocol MovieListViewInterface: AnyObject {
+protocol MovieListViewInterface: EmptyViewShowable {
     func prepareUI()
+}
+
+extension MovieListViewController {
+    enum Constants {
+        enum EmptyView {
+            static let message: String = "No results found"
+            static let titleColor: UIColor = .white
+            static let titleFontSize: CGFloat = 26
+        }
+    }
 }
 
 class MovieListViewController: UIViewController {
@@ -22,8 +33,16 @@ class MovieListViewController: UIViewController {
 }
 
 // MARK: - MovieListViewInterface
-extension MovieListViewController: MovieListViewInterface { 
+extension MovieListViewController: MovieListViewInterface {
+    var emptyViewArguments: EmptyViewPresenterArguments {
+        .init(
+            message: Constants.EmptyView.message,
+            titleColor: Constants.EmptyView.titleColor,
+            titleFontSize: Constants.EmptyView.titleFontSize
+        )
+    }
+    
     func prepareUI() { 
-        view.backgroundColor = .purple
+        view.backgroundColor = Colors.background
     }
 }
