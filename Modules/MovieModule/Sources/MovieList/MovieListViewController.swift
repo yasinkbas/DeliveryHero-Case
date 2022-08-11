@@ -8,10 +8,12 @@
 
 import UIKit
 import CommonKit
+import CoreViewsKit
 
-protocol MovieListViewInterface: EmptyViewShowable {
+protocol MovieListViewInterface: EmptyViewShowable, LoadingShowable {
     func prepareUI()
     func prepareHeaderView(height: Double)
+    func showMovieListPopularResult(with arguments: MovieListPopularResultPresenterArguments)
 }
 
 private extension MovieListViewController {
@@ -23,7 +25,7 @@ private extension MovieListViewController {
         }
         
         enum HeaderView {
-            static let height: CGFloat = 100
+            static let initialHeight: CGFloat = 100
         }
     }
 }
@@ -36,15 +38,10 @@ class MovieListViewController: UIViewController {
         return headerView
     }()
     
-    private lazy var collectionView: UICollectionView = {
-        let collectionView = UICollectionView(
-            frame: .zero,
-            collectionViewLayout: UICollectionViewFlowLayout()
-        )
-        collectionView.backgroundColor = .clear
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        return collectionView
+    private lazy var contentContainerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .orange
+        return view
     }()
     
     override func viewDidLoad() {
@@ -81,8 +78,10 @@ extension MovieListViewController: MovieListViewInterface {
             .topOf(view),
             .trailingOf(view)
         )
-        view.addSubview(collectionView)
-        collectionView.set(.leadingOf(view),
+        
+        view.addSubview(contentContainerView)
+        contentContainerView.set(
+            .leadingOf(view),
             .top(headerView.bottom),
             .trailingOf(view),
             .bottomOf(view)
@@ -95,25 +94,9 @@ extension MovieListViewController: MovieListViewInterface {
         headerView.presenter = presenter
         headerView.set(.height(height))
     }
-}
-
-// MARK: - UICollectionViewDelegate
-extension MovieListViewController: UICollectionViewDelegate {
     
-}
-
-// MARK: - UICollectionViewDataSource
-extension MovieListViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 0
+    func showMovieListPopularResult(with arguments: MovieListPopularResultPresenterArguments) {
+        let movieListPopularResultView = MovieListPopularResultRouter.createModule(arguments: arguments)
+        embed(movieListPopularResultView, in: contentContainerView)
     }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "", for: indexPath) as? UICollectionViewCell else { return UICollectionViewCell()
-        }
-        cell.backgroundColor = .purple
-        return cell
-    }
-    
-    
 }

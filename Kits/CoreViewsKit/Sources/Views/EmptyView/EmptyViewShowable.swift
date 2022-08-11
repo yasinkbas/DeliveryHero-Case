@@ -19,9 +19,7 @@ public protocol EmptyViewShowable: AnyObject {
 }
 
 public extension EmptyViewShowable where Self: UIViewController {
-    var emptyViewContainerView: UIView {
-        view
-    }
+    var emptyViewContainerView: UIView { view }
     
     var emptyViewPaddings: UIEdgeInsets {
         UIEdgeInsets(top: .zero, left: .zero, bottom: .zero, right: .zero)

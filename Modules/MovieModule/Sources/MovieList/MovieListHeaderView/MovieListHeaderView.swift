@@ -34,13 +34,13 @@ private extension MovieListHeaderView {
         
         enum Images {
             static let searchIcon: UIImage? = UIImage(named: "searchIcon",
-                                                      in: Bundle.module,
+                                                      in: .module,
                                                       compatibleWith: nil)
             static let shrinkIcon: UIImage? = UIImage(named: "shrinkIcon",
-                                                      in: Bundle.module,
+                                                      in: .module,
                                                       compatibleWith: nil)
             static let doneIcon: UIImage? = UIImage(named: "doneIcon",
-                                                    in: Bundle.module,
+                                                    in: .module,
                                                     compatibleWith: nil)
         }
         

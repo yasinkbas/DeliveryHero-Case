@@ -9,10 +9,10 @@
 import UIKit
 
 public enum Device {
-    public static let screenWidth       = Int(UIScreen.main.bounds.size.width)
-    public static let screenHeight      = Int(UIScreen.main.bounds.size.height)
-    public static let screenMaxLength   = Int( max(screenWidth, screenHeight) )
-    public static let screenMinLength   = Int( min(screenWidth, screenHeight) )
+    public static let screenWidth       = Double(UIScreen.main.bounds.size.width)
+    public static let screenHeight      = Double(UIScreen.main.bounds.size.height)
+    public static let screenMaxLength   = Double( max(screenWidth, screenHeight) )
+    public static let screenMinLength   = Double( min(screenWidth, screenHeight) )
     
     public static let isIphoneXOrBigger = screenMaxLength >= 812
 }

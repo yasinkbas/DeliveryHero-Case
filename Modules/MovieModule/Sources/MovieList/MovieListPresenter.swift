@@ -8,6 +8,7 @@
 
 import Foundation
 import CommonKit
+import NetworkManagerKit
 
 protocol MovieListPresenterInterface: AnyObject {
     var movieListHeaderPresenterDelegate: MovieListHeaderPresenterDelegate { get }
@@ -15,10 +16,16 @@ protocol MovieListPresenterInterface: AnyObject {
     func viewDidLoad()
 }
 
-extension MovieListPresenter {
+private extension MovieListPresenter {
     enum Constants {
         static let headerViewHeightSmallDevices: Double = 70
         static let headerViewHeightBigDevices: Double = 120
+    }
+}
+
+private extension MovieListPresenter {
+    enum State {
+        case empty, list, search
     }
 }
 
@@ -27,6 +34,12 @@ class MovieListPresenter {
     private let router: MovieListRouterInterface
     private let interactor: MovieListInteractorInterface
     private let isIphoneXOrBigger: Bool
+    
+    private var state: State = .empty {
+        didSet {
+            updateUI()
+        }
+    }
     
     init(
         view: MovieListViewInterface,
@@ -39,6 +52,17 @@ class MovieListPresenter {
         self.interactor = interactor
         self.isIphoneXOrBigger = isIphoneXOrBigger
     }
+    
+    func updateUI() {
+        switch state {
+        case .empty:
+            view?.showEmptyView()
+        case .list:
+            view?.hideEmptyView()
+        case .search:
+            view?.hideEmptyView()
+        }
+    }
 }
 
 // MARK: - MovieListPresenterInterface
@@ -47,18 +71,29 @@ extension MovieListPresenter: MovieListPresenterInterface {
     
     func viewDidLoad() {
         view?.prepareUI()
-        interactor.fetchPopularMovies()
-        view?.prepareHeaderView(height: isIphoneXOrBigger
-                                ? Constants.headerViewHeightBigDevices
-                                : Constants.headerViewHeightSmallDevices)
+        view?.prepareHeaderView(
+            height: isIphoneXOrBigger
+            ? Constants.headerViewHeightBigDevices
+            : Constants.headerViewHeightSmallDevices
+        )
         
-        view?.showEmptyView()
+        view?.showLoading()
+        interactor.fetchPopularMovies(page: 1)
     }
 }
 
 // MARK: - MovieListInteractorOutput
 extension MovieListPresenter: MovieListInteractorOutput { 
+    func fetchPopularMoviesResponse(response: [Movie]) {
+        view?.hideLoading()
+        print("--> fetched movies count \(response.count)")
+        view?.showMovieListPopularResult(with: .init(movies: response))
+    }
     
+    func handleRequestError(errorMessage: String) {
+        // TODO: show alert
+        
+    }
 }
 
 // MARK: - MovieListHeaderPresenterDelegate

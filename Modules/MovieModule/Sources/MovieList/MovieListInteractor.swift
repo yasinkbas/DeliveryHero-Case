@@ -7,14 +7,16 @@
 //
 
 import Foundation
+import CommonKit
 import NetworkManagerKit
 
 protocol MovieListInteractorInterface: AnyObject {
-    func fetchPopularMovies()
+    func fetchPopularMovies(page: Int)
 }
 
 protocol MovieListInteractorOutput: AnyObject {
-    
+    func fetchPopularMoviesResponse(response: [Movie])
+    func handleRequestError(errorMessage: String)
 }
 
 final class MovieListInteractor {
@@ -23,17 +25,14 @@ final class MovieListInteractor {
 
 // MARK: - MovieListInteractorInterface
 extension MovieListInteractor: MovieListInteractorInterface { 
-    func fetchPopularMovies() {
-        MovieAPI().popular().onData { response in
-            response.results.forEach {
-                print("--> \($0.title)")
+    func fetchPopularMovies(page: Int) {
+        MovieAPI()
+            .popular()
+            .onData { [weak self] response in
+                self?.output?.fetchPopularMoviesResponse(response: response.results)
+            }.onError { [weak self] error in
+                self?.output?.handleRequestError(errorMessage: error.localizedDescription)
             }
-        }.onError { error in
-            print("--> error \(error.localizedDescription)")
-        }
-        .onResponse { response in
-            print("--> response \(response)")
-        }
-        .start()
+            .start()
     }
 }
