@@ -10,7 +10,7 @@ import Foundation
 import NetworkManagerKit
 
 protocol MovieListInteractorInterface: AnyObject {
-
+    func fetchPopularMovies()
 }
 
 protocol MovieListInteractorOutput: AnyObject {
@@ -23,5 +23,17 @@ final class MovieListInteractor {
 
 // MARK: - MovieListInteractorInterface
 extension MovieListInteractor: MovieListInteractorInterface { 
-
+    func fetchPopularMovies() {
+        MovieAPI().popular().onData { response in
+            response.results.forEach {
+                print("--> \($0.title)")
+            }
+        }.onError { error in
+            print("--> error \(error.localizedDescription)")
+        }
+        .onResponse { response in
+            print("--> response \(response)")
+        }
+        .start()
+    }
 }

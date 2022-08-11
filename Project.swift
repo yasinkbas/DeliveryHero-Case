@@ -12,7 +12,10 @@ let appTarget = Target(
         "UILaunchScreen": [:]
     ]),
     sources: ["\(projectName)/**"],
-    resources: ["\(projectName)/**/*.xcassets"],
+    resources: [
+        "APIKeys.plist",
+        "\(projectName)/**/*.xcassets"
+    ],
     dependencies: [
         // Externals
         .external(name: "NLab"),

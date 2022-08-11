@@ -32,6 +32,7 @@ class MovieListPresenter {
 extension MovieListPresenter: MovieListPresenterInterface {
     func viewDidLoad() {
         view?.prepareUI()
+        interactor.fetchPopularMovies()
     }
 }
 
