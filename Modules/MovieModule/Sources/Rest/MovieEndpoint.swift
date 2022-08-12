@@ -1,20 +1,23 @@
 //
-//  MovieAPI.swift
-//  NetworkManagerKit
+//  MovieEndpoint.swift
+//  MovieModule
 //
-//  Created by Yasin Akbas on 10.08.2022.
+//  Created by Yasin Akbas on 12.08.2022.
 //  Copyright © 2022 com.yasinkbas. All rights reserved.
 //
 
 import Foundation
+import CommonKit
+import NetworkManagerKit
 import NLab
 
-public class MovieAPI {
+typealias MovieListAPIResponse = PagedAPIResponse<[MovieResponse]>
+class MovieEndpoint {
     let client = NetworkClientHandler.client(for: .themoviedb)
     
-    public init() { }
+    init() { }
     
-    public func popular(page: String = "1") -> NLTaskDirector<PagedAPIResponse<[Movie]>, Empty> {
+    func popular(page: String) -> NLTaskDirector<MovieListAPIResponse, Empty> {
         NLTaskPoint(client: client)
             .path("movie/popular")
             .method(.get)

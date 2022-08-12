@@ -7,9 +7,9 @@
 //
 
 import UIKit
-import NetworkManagerKit
 import UILab
-import NLab
+import NetworkManagerKit
+import CommonKit
 
 final class AppContainer {
     let router: AppRouter
@@ -28,8 +28,8 @@ final class AppContainer {
         struct APIKeys: Decodable {
             let themoviedb: String
         }
-//        let response: Response = try! PropertyListParser.read(fileName: "APIKeys")
-//        NetworkConfigs.register(placesApiKey: response.placesApiKey)
+        let response: APIKeys = try! PropertyListParser.read(fileName: "APIKeys")
+        NetworkConfigs.register(themoviedbApiKey: response.themoviedb)
     }
     
     private func configureUILab() {

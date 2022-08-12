@@ -1,6 +1,6 @@
 import ProjectDescription
 
-let projectName = "NetworkManagerKit"
+let projectName = "CommonKit"
 let organizationName = "com.yasinkbas"
 let bundleId = "\(organizationName).\(projectName)"
 
@@ -18,8 +18,7 @@ let project = Project(
             sources: ["Sources/**"],
             resources: [],
             dependencies: [
-                .project(target: "CommonKit", path: .relativeToManifest("../../Kits/CommonKit")),
-                
-                .external(name: "NLab")
+                .external(name: "UILab"),
+                .external(name: "SDWebImage"),
             ])
     ])

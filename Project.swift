@@ -12,15 +12,19 @@ let appTarget = Target(
         "UILaunchScreen": [:]
     ]),
     sources: ["\(projectName)/**"],
-    resources: ["\(projectName)/**/*.xcassets"],
+    resources: [
+        "APIKeys.plist",
+        "\(projectName)/**/*.xcassets"
+    ],
     dependencies: [
         // Externals
-        .external(name: "NLab"),
         .external(name: "UILab"),
         
         // Internal Kits
         .project(target: "NetworkManagerKit", path: .relativeToManifest("Kits/NetworkManagerKit")),
         .project(target: "DependencyManagerKit", path: .relativeToManifest("Kits/DependencyManagerKit")),
+        .project(target: "CommonKit", path: .relativeToManifest("Kits/CommonKit")),
+        .project(target: "CoreViewsKit", path: .relativeToManifest("Kits/CoreViewsKit")),
         
         // Internal Modules
         .project(target: "MovieModule", path: .relativeToManifest("Modules/MovieModule")),
