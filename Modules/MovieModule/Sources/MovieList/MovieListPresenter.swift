@@ -20,12 +20,14 @@ private extension MovieListPresenter {
     enum Constants {
         static let headerViewHeightSmallDevices: Double = 70
         static let headerViewHeightBigDevices: Double = 120
+        
+        static let popularMoviesFetchInitialPageNumber: Int = 1
     }
 }
 
 private extension MovieListPresenter {
     enum State {
-        case empty, list, search
+        case empty, list, search, loading
     }
 }
 
@@ -58,12 +60,23 @@ final class MovieListPresenter {
     func updateUI() {
         switch state {
         case .empty:
+            view?.hideLoading()
             view?.showEmptyView()
         case .list:
+            view?.hideLoading()
             view?.hideEmptyView()
         case .search:
+            view?.hideLoading()
+            view?.hideEmptyView()
+        case .loading:
+            view?.showLoading()
             view?.hideEmptyView()
         }
+    }
+    
+    private func fetchPopularMovies(page: Int) {
+        state = .loading
+        interactor.fetchPopularMovies(page: 1)
     }
 }
 
@@ -78,9 +91,7 @@ extension MovieListPresenter: MovieListPresenterInterface {
             ? Constants.headerViewHeightBigDevices
             : Constants.headerViewHeightSmallDevices
         )
-        
-        view?.showLoading()
-        interactor.fetchPopularMovies(page: 1)
+        fetchPopularMovies(page: Constants.popularMoviesFetchInitialPageNumber)
     }
 }
 
@@ -92,7 +103,7 @@ extension MovieListPresenter: MovieListInteractorOutput {
             state = .empty
             return
         }
-        if movieListPopularResultModule == nil{
+        if movieListPopularResultModule == nil {
             movieListPopularResultModule = view?.showMovieListPopularResult(with: .init(delegate: self))
         }
         movieListPopularResultModule?.addNewMovies(response: response)
@@ -101,8 +112,7 @@ extension MovieListPresenter: MovieListInteractorOutput {
     
     func handleRequestError(errorMessage: String) {
         view?.hideLoading()
-        // TODO: show alert
-        
+        view?.showAlert(message: errorMessage)
         state = .empty
     }
 }

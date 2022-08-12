@@ -10,7 +10,7 @@ import UIKit
 import CommonKit
 import CoreViewsKit
 
-protocol MovieListViewInterface: EmptyViewShowable, LoadingShowable {
+protocol MovieListViewInterface: EmptyViewShowable, LoadingShowable, AlertShowable {
     func prepareUI()
     func prepareHeaderView(height: Double)
     func showMovieListPopularResult(with arguments: MovieListPopularResultPresenterArguments) -> MovieListPopularResultModule

@@ -85,7 +85,6 @@ extension MovieListCell: MovieListCellViewInterface {
         
         movieDescriptionContainerStackView.addArrangedSubview(movieTitleLabel)
         movieDescriptionContainerStackView.addArrangedSubview(movieReleaseDateLabel)
-        
     }
     
     func setCoverImageView(path: String) {
