@@ -29,7 +29,7 @@ private extension MovieListPresenter {
     }
 }
 
-class MovieListPresenter {
+final class MovieListPresenter {
     private weak var view: MovieListViewInterface?
     private let router: MovieListRouterInterface
     private let interactor: MovieListInteractorInterface
@@ -86,18 +86,24 @@ extension MovieListPresenter: MovieListPresenterInterface {
 
 // MARK: - MovieListInteractorOutput
 extension MovieListPresenter: MovieListInteractorOutput { 
-    func fetchPopularMoviesResponse(response: PagedAPIResponse<[Movie]>) {
+    func fetchPopularMoviesResponse(response: MovieListAPIResponse) {
         view?.hideLoading()
-        if let movieListPopularResultModule = movieListPopularResultModule {
-            movieListPopularResultModule.addNewMovies(response: response)
-        } else {
-            movieListPopularResultModule = view?.showMovieListPopularResult(with: .init(delegate: self, response: response))
+        guard !response.results.isEmpty else {
+            state = .empty
+            return
         }
+        if movieListPopularResultModule == nil{
+            movieListPopularResultModule = view?.showMovieListPopularResult(with: .init(delegate: self))
+        }
+        movieListPopularResultModule?.addNewMovies(response: response)
+        state = .list
     }
     
     func handleRequestError(errorMessage: String) {
         view?.hideLoading()
         // TODO: show alert
+        
+        state = .empty
     }
 }
 
@@ -113,5 +119,4 @@ extension MovieListPresenter: MovieListPopularResultPresenterDelegate {
     func movieListPopularResultFetchPopularMovies(page: Int) {
         interactor.fetchPopularMovies(page: page)
     }
-    
 }

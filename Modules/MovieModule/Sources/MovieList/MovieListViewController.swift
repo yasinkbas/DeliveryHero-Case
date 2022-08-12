@@ -30,7 +30,7 @@ private extension MovieListViewController {
     }
 }
 
-class MovieListViewController: UIViewController {
+final class MovieListViewController: UIViewController {
     var presenter: MovieListPresenterInterface!
     
     private lazy var headerView: MovieListHeaderView = {
@@ -40,7 +40,6 @@ class MovieListViewController: UIViewController {
     
     private lazy var contentContainerView: UIView = {
         let view = UIView()
-        view.backgroundColor = .orange
         return view
     }()
     

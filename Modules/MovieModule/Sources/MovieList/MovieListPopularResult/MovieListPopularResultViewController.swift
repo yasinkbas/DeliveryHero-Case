@@ -13,7 +13,7 @@ protocol MovieListPopularResultViewInterface: AnyObject {
     func reloadData()
 }
 
-class MovieListPopularResultViewController: UIViewController {
+final class MovieListPopularResultViewController: UIViewController {
     var presenter: MovieListPopularResultPresenterInterface!
     
     private lazy var collectionView: UICollectionView = {
@@ -22,6 +22,7 @@ class MovieListPopularResultViewController: UIViewController {
             collectionViewLayout: UICollectionViewFlowLayout()
         )
         collectionView.backgroundColor = .clear
+        collectionView.showsVerticalScrollIndicator = false
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(cellType: MovieListCell.self, bundle: .module)
@@ -76,13 +77,13 @@ extension MovieListPopularResultViewController: UICollectionViewDelegate {
 // MARK: - UICollectionViewDataSource
 extension MovieListPopularResultViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return presenter.numberOfItemsInSection
+        presenter.numberOfItemsInSection
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(with: MovieListCell.self, for: indexPath)
-        cell.presenter = MovieListCellPresenter(view: cell)
-        cell.backgroundColor = .purple
+        let arguments = presenter.movieCellPresenterArguments(for: indexPath)
+        cell.presenter = MovieListCellPresenter(view: cell, arguments: arguments)
         return cell
     }
 }

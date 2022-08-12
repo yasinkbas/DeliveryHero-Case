@@ -18,6 +18,7 @@ let project = Project(
             sources: ["Sources/**"],
             resources: [],
             dependencies: [
-                .external(name: "UILab")
+                .external(name: "UILab"),
+                .external(name: "SDWebImage"),
             ])
     ])

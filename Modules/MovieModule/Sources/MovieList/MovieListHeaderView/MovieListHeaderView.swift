@@ -48,7 +48,7 @@ private extension MovieListHeaderView {
     }
 }
 
-class MovieListHeaderView: UIView {
+final class MovieListHeaderView: UIView {
     var presenter: MovieListHeaderPresenterInterface! {
         didSet {
             presenter.load()

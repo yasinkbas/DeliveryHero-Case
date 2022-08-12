@@ -24,8 +24,7 @@ let project = Project(
                 .project(target: "NetworkManagerKit", path: .relativeToManifest("../../Kits/NetworkManagerKit")),
                 .project(target: "CommonKit", path: .relativeToManifest("../../Kits/CommonKit")),
                 .project(target: "CoreViewsKit", path: .relativeToManifest("../../Kits/CoreViewsKit")),
-                
-                    .external(name: "UILab"),
+                .external(name: "UILab"),
             ]),
         Target(
             name: "\(projectName)Tests",

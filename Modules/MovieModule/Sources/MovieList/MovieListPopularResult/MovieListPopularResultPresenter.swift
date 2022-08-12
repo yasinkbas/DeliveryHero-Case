@@ -17,6 +17,7 @@ protocol MovieListPopularResultPresenterInterface: AnyObject {
     
     func viewDidLoad()
     func willDisplayCell(indexPath: IndexPath)
+    func movieCellPresenterArguments(for indexPath: IndexPath) -> MovieListCellPresenterArguments
 }
 
 protocol MovieListPopularResultPresenterDelegate: AnyObject {
@@ -24,7 +25,7 @@ protocol MovieListPopularResultPresenterDelegate: AnyObject {
 }
 
 protocol MovieListPopularResultModule: AnyObject {
-    func addNewMovies(response: PagedAPIResponse<[Movie]>)
+    func addNewMovies(response: MovieListAPIResponse)
 }
 
 private extension MovieListPopularResultPresenter {
@@ -36,15 +37,14 @@ private extension MovieListPopularResultPresenter {
 
 struct MovieListPopularResultPresenterArguments {
     weak var delegate: MovieListPopularResultPresenterDelegate?
-    let response: PagedAPIResponse<[Movie]>
 }
 
-class MovieListPopularResultPresenter {
+final class MovieListPopularResultPresenter {
     private weak var view: MovieListPopularResultViewInterface?
     private let router: MovieListPopularResultRouterInterface
     private let arguments: MovieListPopularResultPresenterArguments
     private let screenWidth: Double
-    private var movies: [Movie] = []
+    private var movies: [MovieResponse] = []
     private var page: Int = .zero
     private var totalPages: Int = .zero
 
@@ -58,14 +58,14 @@ class MovieListPopularResultPresenter {
         self.router = router
         self.arguments = arguments
         self.screenWidth = screenWidth
-        addNewMovies(response: arguments.response)
     }
 }
 
 // MARK: - MovieListPopularResultPresenterInterface
 extension MovieListPopularResultPresenter: MovieListPopularResultPresenterInterface {    
     var sizeOfCell: (width: Double, height: Double) {
-        (width: screenWidth / 2 - 20, height: Constants.heightOfCell)
+        let cellWidth = screenWidth / 2 - 20
+        return (width: cellWidth, height: cellWidth * 1.5 + 50)
     }
     
     var minimumInteritemSpacingForSectionAt: Double {
@@ -81,16 +81,20 @@ extension MovieListPopularResultPresenter: MovieListPopularResultPresenterInterf
     }
     
     func willDisplayCell(indexPath: IndexPath) {
-        if totalPages > page && indexPath.item == movies.count - 2 {
+        if totalPages > page && indexPath.item == movies.count - 4 {
             page += 1
             arguments.delegate?.movieListPopularResultFetchPopularMovies(page: page)
         }
+    }
+    
+    func movieCellPresenterArguments(for indexPath: IndexPath) -> MovieListCellPresenterArguments {
+        .init(movie: movies[indexPath.item])
     }
 }
 
 // MARK: - MovieListPopularResultModule
 extension MovieListPopularResultPresenter: MovieListPopularResultModule {
-    func addNewMovies(response: PagedAPIResponse<[Movie]>) {
+    func addNewMovies(response: MovieListAPIResponse) {
         page = response.page
         totalPages = response.totalPages
         movies.append(contentsOf: response.results)

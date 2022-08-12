@@ -19,7 +19,7 @@ protocol MovieListHeaderPresenterDelegate: AnyObject {
     func searchButtonTapped(searchText: String)
 }
 
-class MovieListHeaderPresenter {
+final class MovieListHeaderPresenter {
     private weak var view: MovieListHeaderViewInterface?
     private weak var delegate: MovieListHeaderPresenterDelegate?
     

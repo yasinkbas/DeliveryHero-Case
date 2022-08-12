@@ -11,12 +11,13 @@ import CommonKit
 import NetworkManagerKit
 import NLab
 
-public class MovieEndpoint {
+typealias MovieListAPIResponse = PagedAPIResponse<[MovieResponse]>
+class MovieEndpoint {
     let client = NetworkClientHandler.client(for: .themoviedb)
     
-    public init() { }
+    init() { }
     
-    public func popular(page: String = "1") -> NLTaskDirector<PagedAPIResponse<[Movie]>, Empty> {
+    func popular(page: String) -> NLTaskDirector<MovieListAPIResponse, Empty> {
         NLTaskPoint(client: client)
             .path("movie/popular")
             .method(.get)

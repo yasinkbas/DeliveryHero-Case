@@ -12,11 +12,17 @@ protocol MovieListCellPresenterInterface: AnyObject {
     func load()
 }
 
-class MovieListCellPresenter {
-    private weak var view: MovieListCellViewInterface?
+struct MovieListCellPresenterArguments {
+    let movie: MovieResponse
+}
 
-    init(view: MovieListCellViewInterface) {
+final class MovieListCellPresenter {
+    private weak var view: MovieListCellViewInterface?
+    private let arguments: MovieListCellPresenterArguments
+
+    init(view: MovieListCellViewInterface, arguments: MovieListCellPresenterArguments) {
         self.view = view
+        self.arguments = arguments
     }
 }
 
@@ -24,5 +30,8 @@ class MovieListCellPresenter {
 extension MovieListCellPresenter: MovieListCellPresenterInterface {
     func load() {
         view?.prepareUI()
+        view?.setCoverImageView(path: arguments.movie.posterUrl)
+        view?.setMovieTitleLabel(text: arguments.movie.title ?? "")
+        view?.setMovieReleaseDateLabel(text: arguments.movie.releaseDate ?? "")
     }
 }

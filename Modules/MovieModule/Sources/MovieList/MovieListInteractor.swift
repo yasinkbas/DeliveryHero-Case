@@ -15,7 +15,7 @@ protocol MovieListInteractorInterface: AnyObject {
 }
 
 protocol MovieListInteractorOutput: AnyObject {
-    func fetchPopularMoviesResponse(response: PagedAPIResponse<[Movie]>)
+    func fetchPopularMoviesResponse(response: MovieListAPIResponse)
     func handleRequestError(errorMessage: String)
 }
 
@@ -27,7 +27,7 @@ final class MovieListInteractor {
 extension MovieListInteractor: MovieListInteractorInterface { 
     func fetchPopularMovies(page: Int) {
         MovieEndpoint()
-            .popular()
+            .popular(page: page.toString)
             .onData { [weak self] response in
                 self?.output?.fetchPopularMoviesResponse(response: response)
             }.onError { [weak self] error in
