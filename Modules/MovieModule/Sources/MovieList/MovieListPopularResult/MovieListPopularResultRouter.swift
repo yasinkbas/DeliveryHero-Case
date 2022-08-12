@@ -13,12 +13,12 @@ protocol MovieListPopularResultRouterInterface: AnyObject {
 }
 
 final class MovieListPopularResultRouter {
-    static func createModule(arguments: MovieListPopularResultPresenterArguments) -> MovieListPopularResultViewController {
+    static func createModule(arguments: MovieListPopularResultPresenterArguments) -> (MovieListPopularResultViewController, MovieListPopularResultModule) {
         let view = MovieListPopularResultViewController()
         let router = MovieListPopularResultRouter()
         let presenter = MovieListPopularResultPresenter(view: view, router: router, arguments: arguments)
         view.presenter = presenter
-        return view
+        return (view, presenter)
     }
 }
 

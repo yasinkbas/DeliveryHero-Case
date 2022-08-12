@@ -24,7 +24,7 @@ private extension MovieListHeaderView {
             static let primaryTextColor: UIColor = .white
             static let secondaryTextColor: UIColor = .orange
             static let font: UIFont = .boldSystemFont(ofSize: 22)
-            static let bottomPadding: CGFloat = 8
+            static let bottomPadding: CGFloat = 16
         }
         
         enum SearchContainerView {

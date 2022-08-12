@@ -35,6 +35,8 @@ class MovieListPresenter {
     private let interactor: MovieListInteractorInterface
     private let isIphoneXOrBigger: Bool
     
+    private var movieListPopularResultModule: MovieListPopularResultModule?
+    
     private var state: State = .empty {
         didSet {
             updateUI()
@@ -84,15 +86,18 @@ extension MovieListPresenter: MovieListPresenterInterface {
 
 // MARK: - MovieListInteractorOutput
 extension MovieListPresenter: MovieListInteractorOutput { 
-    func fetchPopularMoviesResponse(response: [Movie]) {
+    func fetchPopularMoviesResponse(response: PagedAPIResponse<[Movie]>) {
         view?.hideLoading()
-        print("--> fetched movies count \(response.count)")
-        view?.showMovieListPopularResult(with: .init(movies: response))
+        if let movieListPopularResultModule = movieListPopularResultModule {
+            movieListPopularResultModule.addNewMovies(response: response)
+        } else {
+            movieListPopularResultModule = view?.showMovieListPopularResult(with: .init(delegate: self, response: response))
+        }
     }
     
     func handleRequestError(errorMessage: String) {
+        view?.hideLoading()
         // TODO: show alert
-        
     }
 }
 
@@ -101,4 +106,12 @@ extension MovieListPresenter: MovieListHeaderPresenterDelegate {
     func searchButtonTapped(searchText: String) {
         // TODO: interactor.searchText()
     }
+}
+
+// MARK: - MovieListPopularResultPresenterDelegate
+extension MovieListPresenter: MovieListPopularResultPresenterDelegate {
+    func movieListPopularResultFetchPopularMovies(page: Int) {
+        interactor.fetchPopularMovies(page: page)
+    }
+    
 }

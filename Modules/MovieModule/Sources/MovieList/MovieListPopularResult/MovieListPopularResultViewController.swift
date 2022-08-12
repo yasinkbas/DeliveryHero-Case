@@ -10,6 +10,7 @@ import UIKit
 
 protocol MovieListPopularResultViewInterface: AnyObject {
     func prepareUI()
+    func reloadData()
 }
 
 class MovieListPopularResultViewController: UIViewController {
@@ -67,7 +68,9 @@ extension MovieListPopularResultViewController: UICollectionViewDelegateFlowLayo
 
 // MARK: - UICollectionViewDelegate
 extension MovieListPopularResultViewController: UICollectionViewDelegate {
-    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        presenter.willDisplayCell(indexPath: indexPath)
+    }
 }
 
 // MARK: - UICollectionViewDataSource
@@ -82,7 +85,5 @@ extension MovieListPopularResultViewController: UICollectionViewDataSource {
         cell.backgroundColor = .purple
         return cell
     }
-    
-    
 }
 

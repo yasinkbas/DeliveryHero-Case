@@ -18,7 +18,6 @@ let appTarget = Target(
     ],
     dependencies: [
         // Externals
-        .external(name: "NLab"),
         .external(name: "UILab"),
         
         // Internal Kits

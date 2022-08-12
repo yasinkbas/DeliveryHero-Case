@@ -13,7 +13,7 @@ import CoreViewsKit
 protocol MovieListViewInterface: EmptyViewShowable, LoadingShowable {
     func prepareUI()
     func prepareHeaderView(height: Double)
-    func showMovieListPopularResult(with arguments: MovieListPopularResultPresenterArguments)
+    func showMovieListPopularResult(with arguments: MovieListPopularResultPresenterArguments) -> MovieListPopularResultModule
 }
 
 private extension MovieListViewController {
@@ -95,8 +95,9 @@ extension MovieListViewController: MovieListViewInterface {
         headerView.set(.height(height))
     }
     
-    func showMovieListPopularResult(with arguments: MovieListPopularResultPresenterArguments) {
-        let movieListPopularResultView = MovieListPopularResultRouter.createModule(arguments: arguments)
+    func showMovieListPopularResult(with arguments: MovieListPopularResultPresenterArguments) -> MovieListPopularResultModule {
+        let (movieListPopularResultView, movieListPopularResultModule) = MovieListPopularResultRouter.createModule(arguments: arguments)
         embed(movieListPopularResultView, in: contentContainerView)
+        return movieListPopularResultModule
     }
 }

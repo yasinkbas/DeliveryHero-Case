@@ -16,6 +16,15 @@ protocol MovieListPopularResultPresenterInterface: AnyObject {
     var numberOfItemsInSection: Int { get }
     
     func viewDidLoad()
+    func willDisplayCell(indexPath: IndexPath)
+}
+
+protocol MovieListPopularResultPresenterDelegate: AnyObject {
+    func movieListPopularResultFetchPopularMovies(page: Int)
+}
+
+protocol MovieListPopularResultModule: AnyObject {
+    func addNewMovies(response: PagedAPIResponse<[Movie]>)
 }
 
 private extension MovieListPopularResultPresenter {
@@ -26,7 +35,8 @@ private extension MovieListPopularResultPresenter {
 }
 
 struct MovieListPopularResultPresenterArguments {
-    let movies: [Movie]
+    weak var delegate: MovieListPopularResultPresenterDelegate?
+    let response: PagedAPIResponse<[Movie]>
 }
 
 class MovieListPopularResultPresenter {
@@ -35,6 +45,8 @@ class MovieListPopularResultPresenter {
     private let arguments: MovieListPopularResultPresenterArguments
     private let screenWidth: Double
     private var movies: [Movie] = []
+    private var page: Int = .zero
+    private var totalPages: Int = .zero
 
     init(
         view: MovieListPopularResultViewInterface,
@@ -46,7 +58,7 @@ class MovieListPopularResultPresenter {
         self.router = router
         self.arguments = arguments
         self.screenWidth = screenWidth
-        movies.append(contentsOf: arguments.movies)
+        addNewMovies(response: arguments.response)
     }
 }
 
@@ -66,5 +78,22 @@ extension MovieListPopularResultPresenter: MovieListPopularResultPresenterInterf
     
     func viewDidLoad() {
         view?.prepareUI()
+    }
+    
+    func willDisplayCell(indexPath: IndexPath) {
+        if totalPages > page && indexPath.item == movies.count - 2 {
+            page += 1
+            arguments.delegate?.movieListPopularResultFetchPopularMovies(page: page)
+        }
+    }
+}
+
+// MARK: - MovieListPopularResultModule
+extension MovieListPopularResultPresenter: MovieListPopularResultModule {
+    func addNewMovies(response: PagedAPIResponse<[Movie]>) {
+        page = response.page
+        totalPages = response.totalPages
+        movies.append(contentsOf: response.results)
+        view?.reloadData()
     }
 }
