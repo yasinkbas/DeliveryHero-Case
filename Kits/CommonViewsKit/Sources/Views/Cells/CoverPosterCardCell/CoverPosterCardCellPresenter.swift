@@ -14,7 +14,6 @@ public protocol CoverPosterCardShowableModel {
     var coverPosterImagePath: String { get }
 }
 
-
 public protocol CoverPosterCardCellPresenterInterface: AnyObject {
     func load()
 }
@@ -51,7 +50,11 @@ public class CoverPosterCardCellPresenter {
 extension CoverPosterCardCellPresenter: CoverPosterCardCellPresenterInterface {
     public func load() {
         view?.prepareUI()
-        view?.setCoverImageView(path: arguments.imageUrl)
+        if arguments.imageUrl.isEmpty {
+            view?.setPlaceHolderAsCoverImage()
+        } else {
+            view?.setCoverImageView(path: arguments.imageUrl)
+        }
         view?.setTitleLabel(text: arguments.title)
         view?.setSubtitleLabel(text: arguments.secondaryTitle ?? "")
     }

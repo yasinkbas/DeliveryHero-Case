@@ -12,6 +12,7 @@ import CommonKit
 public protocol CoverPosterCardCellViewInterface: AnyObject {
     func prepareUI()
     func setCoverImageView(path: String)
+    func setPlaceHolderAsCoverImage()
     func setTitleLabel(text: String)
     func setSubtitleLabel(text: String)
 }
@@ -88,7 +89,11 @@ extension CoverPosterCardCell: CoverPosterCardCellViewInterface {
     }
     
     public func setCoverImageView(path: String) {
-        coverImageView.setImage(path: path)
+        coverImageView.setImage(path: path, placeholder: Constants.placeHolderImage)
+    }
+    
+    public func setPlaceHolderAsCoverImage() {
+        coverImageView.image = Constants.placeHolderImage
     }
     
     public func setTitleLabel(text: String) {

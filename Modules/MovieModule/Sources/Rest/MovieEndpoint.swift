@@ -15,7 +15,8 @@ typealias MovieListAPIResponse = PagedAPIResponse<[MovieResponse]>
 typealias MovieSearchResultAPIResponse = PagedAPIResponse<[MovieResponse]>
 typealias PeopleSearchResultAPIResponse = PagedAPIResponse<[PersonResponse]>
 typealias GenreMoviesSearchResultAPIResponse = PagedAPIResponse<[MovieResponse]>
-class MovieEndpoint {
+
+final class MovieEndpoint {
     let client = NetworkClientHandler.client(for: .themoviedb)
     
     init() { }

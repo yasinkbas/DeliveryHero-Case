@@ -22,13 +22,14 @@ struct PersonResponse: Decodable {
         case profilePath = "profile_path"
     }
     
-    var profilePicture: String {
-        "https://image.tmdb.org/t/p/w500\(profilePath ?? "")"
+    var profilePicture: String? {
+        guard let profilePath = profilePath else { return nil }
+        return "https://image.tmdb.org/t/p/w500\(profilePath)"
     }
 }
 
 extension PersonResponse: CoverPosterCardShowableModel {
     var coverPosterTitle: String { name }
     var coverPosterSubtitle: String? { "Popularity: \(popularity)" }
-    var coverPosterImagePath: String { profilePicture }
+    var coverPosterImagePath: String { profilePicture ?? "" }
 }
