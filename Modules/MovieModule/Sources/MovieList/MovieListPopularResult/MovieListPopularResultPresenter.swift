@@ -19,6 +19,7 @@ protocol MovieListPopularResultPresenterInterface: AnyObject {
     func viewDidLoad()
     func willDisplayCell(indexPath: IndexPath)
     func movieCellPresenterArguments(for indexPath: IndexPath) -> CoverPosterCardCellPresenterArguments
+    func didSelectItemAt(indexPath: IndexPath)
 }
 
 protocol MovieListPopularResultPresenterDelegate: AnyObject {
@@ -91,6 +92,12 @@ extension MovieListPopularResultPresenter: MovieListPopularResultPresenterInterf
     func movieCellPresenterArguments(for indexPath: IndexPath) -> CoverPosterCardCellPresenterArguments {
         let movie = movies[indexPath.item]
         return .init(title: movie.title ?? "", secondaryTitle: movie.releaseDate ?? "", imageUrl: movie.backdropUrl)
+    }
+    
+    func didSelectItemAt(indexPath: IndexPath) {
+        if let movieId = movies[indexPath.item].id {
+            router.navigateToMovieDetail(with: movieId)
+        }
     }
 }
 

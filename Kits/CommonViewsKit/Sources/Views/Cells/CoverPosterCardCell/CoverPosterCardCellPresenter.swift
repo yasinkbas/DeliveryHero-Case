@@ -9,6 +9,7 @@
 import Foundation
 
 public protocol CoverPosterCardShowableModel {
+    var coverPosterId: Int? { get }
     var coverPosterTitle: String { get }
     var coverPosterSubtitle: String? { get }
     var coverPosterImagePath: String { get }

@@ -16,10 +16,17 @@ protocol MovieListSearchResultCellPresenterInterface: AnyObject {
     
     func load()
     func coverPosterCardCellModel(for indexPath: IndexPath) -> CoverPosterCardShowableModel
+    func didSelectItemAt(indexPath: IndexPath)
+}
+
+protocol MovieListSearchResultCellPresenterDelegate: AnyObject {
+    func navigateToProductDetail(with id: Int)
+    func navigateToMovieDetail(with id: Int)
 }
 
 struct MovieListSearchResultCellPresenterArguments {
     let widget: MovieListSearchResultWidgetItem
+    weak var delegate: MovieListSearchResultCellPresenterDelegate?
 }
 
 private extension MovieListSearchResultCellPresenter {
@@ -82,5 +89,14 @@ extension MovieListSearchResultCellPresenter: MovieListSearchResultCellPresenter
     
     func coverPosterCardCellModel(for indexPath: IndexPath) -> CoverPosterCardShowableModel {
         arguments.widget.result[indexPath.item]
+    }
+    
+    func didSelectItemAt(indexPath: IndexPath) {
+        if arguments.widget.widgetType == .people,
+            let personId = arguments.widget.result[indexPath.item].coverPosterId {
+            arguments.delegate?.navigateToProductDetail(with: personId)
+        } else if let movieId = arguments.widget.result[indexPath.item].coverPosterId {
+            arguments.delegate?.navigateToMovieDetail(with: movieId)
+        }
     }
 }

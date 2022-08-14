@@ -76,10 +76,21 @@ extension MovieListSearchResultPresenter: MovieListSearchResultPresenterInterfac
     }
     
     func movieListSearchResultCellArguments(for indexPath: IndexPath) -> MovieListSearchResultCellPresenterArguments {
-        MovieListSearchResultCellPresenterArguments(widget: arguments.widgets[indexPath.item])
+        MovieListSearchResultCellPresenterArguments(widget: arguments.widgets[indexPath.item], delegate: self)
     }
 }
 
 // MARK: - MovieListSearchResultModule
 extension MovieListSearchResultPresenter: MovieListSearchResultModule {
+}
+
+// MARK: - MovieListSearchResultCellPresenterDelegate
+extension MovieListSearchResultPresenter: MovieListSearchResultCellPresenterDelegate {
+    func navigateToProductDetail(with id: Int) {
+        router.navigateToProductDetail(with: id)
+    }
+    
+    func navigateToMovieDetail(with id: Int) {
+        router.navigateToMovieDetail(with: id)
+    }
 }

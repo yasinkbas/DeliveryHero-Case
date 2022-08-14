@@ -29,6 +29,7 @@ struct PersonResponse: Decodable {
 }
 
 extension PersonResponse: CoverPosterCardShowableModel {
+    var coverPosterId: Int? { id }
     var coverPosterTitle: String { name }
     var coverPosterSubtitle: String? { "Popularity: \(popularity)" }
     var coverPosterImagePath: String { profilePicture ?? "" }

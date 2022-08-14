@@ -47,6 +47,7 @@ struct MovieResponse: Decodable {
 }
 
 extension MovieResponse: CoverPosterCardShowableModel {
+    var coverPosterId: Int? { id }
     var coverPosterTitle: String { title ?? "" }
     var coverPosterSubtitle: String? { releaseDate }
     var coverPosterImagePath: String { posterUrl }
