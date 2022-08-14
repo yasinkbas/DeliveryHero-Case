@@ -36,7 +36,7 @@ private extension MovieListHeaderView {
             static let searchIcon: UIImage? = UIImage(named: "searchIcon",
                                                       in: .module,
                                                       compatibleWith: nil)
-            static let shrinkIcon: UIImage? = UIImage(named: "shrinkIcon",
+            static let closeIcon: UIImage? = UIImage(named: "closeIcon",
                                                       in: .module,
                                                       compatibleWith: nil)
             static let doneIcon: UIImage? = UIImage(named: "doneIcon",
@@ -194,7 +194,7 @@ extension MovieListHeaderView: MovieListHeaderViewInterface {
             self.layoutIfNeeded()
             self.searchTextField.alpha = 1
             self.doneContainerView.alpha = 1
-            self.searchContainerViewLeftIcon.image = Constants.Images.shrinkIcon?.withRenderingMode(.alwaysTemplate)
+            self.searchContainerViewLeftIcon.image = Constants.Images.closeIcon?.withRenderingMode(.alwaysTemplate)
             self.searchContainerViewLeftIcon.tintColor = .orange
         }
     }

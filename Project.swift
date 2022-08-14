@@ -24,7 +24,7 @@ let appTarget = Target(
         .project(target: "NetworkManagerKit", path: .relativeToManifest("Kits/NetworkManagerKit")),
         .project(target: "DependencyManagerKit", path: .relativeToManifest("Kits/DependencyManagerKit")),
         .project(target: "CommonKit", path: .relativeToManifest("Kits/CommonKit")),
-        .project(target: "CoreViewsKit", path: .relativeToManifest("Kits/CoreViewsKit")),
+        .project(target: "CommonViewsKit", path: .relativeToManifest("Kits/CommonViewsKit")),
         
         // Internal Modules
         .project(target: "MovieModule", path: .relativeToManifest("Modules/MovieModule")),

@@ -1,5 +1,5 @@
 //
-//  MovieListCellViewController.swift
+//  CoverPosterCardCellViewController.swift
 //  MovieModule
 //
 //  Created by Yasin Akbas on 11.08.2022.
@@ -9,22 +9,22 @@
 import UIKit
 import CommonKit
 
-protocol MovieListCellViewInterface: AnyObject {
+public protocol CoverPosterCardCellViewInterface: AnyObject {
     func prepareUI()
     func setCoverImageView(path: String)
-    func setMovieTitleLabel(text: String)
-    func setMovieReleaseDateLabel(text: String)
+    func setTitleLabel(text: String)
+    func setSubtitleLabel(text: String)
 }
 
-extension MovieListCell {
+private extension CoverPosterCardCell {
     enum Constants {
         static let cornerRadius: CGFloat = 16
         static let placeHolderImage: UIImage = UIImage(named: "moviePlaceholder", in: .module, compatibleWith: nil)!
     }
 }
 
-final class MovieListCell: UICollectionViewCell {
-    var presenter: MovieListCellPresenterInterface! {
+public class CoverPosterCardCell: UICollectionViewCell {
+    public var presenter: CoverPosterCardCellPresenterInterface! {
         didSet {
             presenter.load()
         }
@@ -37,13 +37,13 @@ final class MovieListCell: UICollectionViewCell {
         return imageView
     }()
     
-    private lazy var movieDescriptionContainerStackView: UIStackView = {
+    private lazy var informationContainerStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         return stackView
     }()
     
-    private lazy var movieTitleLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 14)
         label.adjustsFontSizeToFitWidth = true
@@ -51,7 +51,7 @@ final class MovieListCell: UICollectionViewCell {
         return label
     }()
     
-    private lazy var movieReleaseDateLabel: UILabel = {
+    private lazy var subtitleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 12)
         label.adjustsFontSizeToFitWidth = true
@@ -60,9 +60,9 @@ final class MovieListCell: UICollectionViewCell {
     }()
 }
 
-// MARK: - MovieListCellViewInterface
-extension MovieListCell: MovieListCellViewInterface {
-    func prepareUI() { 
+// MARK: - CoverPosterCardCellViewInterface
+extension CoverPosterCardCell: CoverPosterCardCellViewInterface {
+    public func prepareUI() {
         layer.cornerRadius = Constants.cornerRadius
         layer.masksToBounds = true
         backgroundColor = Colors.light
@@ -75,27 +75,27 @@ extension MovieListCell: MovieListCellViewInterface {
             .heightMultiple(self.width, 1.5)
         )
         
-        addSubview(movieDescriptionContainerStackView)
-        movieDescriptionContainerStackView.set(
+        addSubview(informationContainerStackView)
+        informationContainerStackView.set(
             .leadingOf(self, 8),
             .top(coverImageView.bottom, 8),
             .trailingOf(self, 8),
             .bottomOf(self, 8)
         )
         
-        movieDescriptionContainerStackView.addArrangedSubview(movieTitleLabel)
-        movieDescriptionContainerStackView.addArrangedSubview(movieReleaseDateLabel)
+        informationContainerStackView.addArrangedSubview(titleLabel)
+        informationContainerStackView.addArrangedSubview(subtitleLabel)
     }
     
-    func setCoverImageView(path: String) {
-        coverImageView.setImage(path: path, placeholder: Constants.placeHolderImage)
+    public func setCoverImageView(path: String) {
+        coverImageView.setImage(path: path)
     }
     
-    func setMovieTitleLabel(text: String) {
-        movieTitleLabel.text = text
+    public func setTitleLabel(text: String) {
+        titleLabel.text = text
     }
     
-    func setMovieReleaseDateLabel(text: String) {
-        movieReleaseDateLabel.text = text
+    public func setSubtitleLabel(text: String) {
+        subtitleLabel.text = text
     }
 }

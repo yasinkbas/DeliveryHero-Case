@@ -1,8 +1,8 @@
 //
-//  MovieListPopularResultViewController.swift
+//  MovieListSearchResultCell.swift
 //  MovieModule
 //
-//  Created by Yasin Akbas on 12.08.2022.
+//  Created by Yasin Akbas on 13.08.2022.
 //  Copyright © 2022 com.yasinkbas. All rights reserved.
 //
 
@@ -10,19 +10,28 @@ import UIKit
 import CommonKit
 import CommonViewsKit
 
-protocol MovieListPopularResultViewInterface: AnyObject {
+protocol MovieListSearchResultCellInterface: AnyObject {
     func prepareUI()
-    func reloadData()
+    func setTitleLabel(text: String)
 }
 
-final class MovieListPopularResultViewController: UIViewController {
-    var presenter: MovieListPopularResultPresenterInterface!
+private extension MovieListSearchResultCell {
+    enum Constants {
+        static let collectionViewInsets: UIEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+    }
+}
+
+final class MovieListSearchResultCell: UICollectionViewCell {
+    var presenter: MovieListSearchResultCellPresenterInterface! {
+        didSet {
+            presenter.load()
+        }
+    }
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Popular Movies"
         label.textColor = .white
-        label.font = .boldSystemFont(ofSize: 16)
+        label.font = .boldSystemFont(ofSize: 14)
         return label
     }()
     
@@ -33,45 +42,41 @@ final class MovieListPopularResultViewController: UIViewController {
     }()
     
     private lazy var collectionView: UICollectionView = {
+        let flowLayout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero,
-                                              collectionViewLayout: UICollectionViewFlowLayout())
+                                              collectionViewLayout: flowLayout)
+        flowLayout.scrollDirection = .horizontal
         collectionView.backgroundColor = .clear
-        collectionView.showsVerticalScrollIndicator = false
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(cellType: CoverPosterCardCell.self, bundle: .module)
         return collectionView
     }()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        presenter.viewDidLoad()
-    }
 }
 
-// MARK: - MovieListPopularResultViewInterface
-extension MovieListPopularResultViewController: MovieListPopularResultViewInterface { 
-    func prepareUI() {
-        view.addSubview(headerContainerView)
-        headerContainerView.set(.leadingOf(view), .topOf(view), .trailingOf(view), .height(40))
+// MARK: - MovieListSearchResultCellInterface
+extension MovieListSearchResultCell: MovieListSearchResultCellInterface {
+    func prepareUI() { 
+        addSubview(headerContainerView)
+        headerContainerView.set(.leadingOf(self), .topOf(self), .trailingOf(self), .height(30))
         
         headerContainerView.addSubview(titleLabel)
         titleLabel.set(.leadingOf(headerContainerView, 8), .centerYOf(headerContainerView))
         
-        view.addSubview(collectionView)
-        collectionView.set(.leadingOf(view), .top(headerContainerView.bottom), .trailingOf(view), .bottomOf(view))
+        addSubview(collectionView)
+        collectionView.set(.leadingOf(self), .top(headerContainerView.bottom), .trailingOf(self), .bottomOf(self))
     }
     
-    func reloadData() {
-        collectionView.reloadData()
+    func setTitleLabel(text: String) {
+        titleLabel.text = text
     }
 }
 
-
 // MARK: - UICollectionViewDelegateFlowLayout
-extension MovieListPopularResultViewController: UICollectionViewDelegateFlowLayout {
+extension MovieListSearchResultCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        .init(width: presenter.sizeOfCell.width, height: presenter.sizeOfCell.height)
+        let size = presenter.sizeOfCell
+        return .init(width: size.width, height: size.height)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
@@ -79,27 +84,20 @@ extension MovieListPopularResultViewController: UICollectionViewDelegateFlowLayo
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-    }
-}
-
-// MARK: - UICollectionViewDelegate
-extension MovieListPopularResultViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        presenter.willDisplayCell(indexPath: indexPath)
+        Constants.collectionViewInsets
     }
 }
 
 // MARK: - UICollectionViewDataSource
-extension MovieListPopularResultViewController: UICollectionViewDataSource {
+extension MovieListSearchResultCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         presenter.numberOfItemsInSection
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(with: CoverPosterCardCell.self, for: indexPath)
-        let arguments = presenter.movieCellPresenterArguments(for: indexPath)
-        cell.presenter = CoverPosterCardCellPresenter(view: cell, arguments: arguments)
+        cell.presenter = CoverPosterCardCellPresenter(view: cell,
+                                                      model: presenter.coverPosterCardCellModel(for: indexPath))
         return cell
     }
 }

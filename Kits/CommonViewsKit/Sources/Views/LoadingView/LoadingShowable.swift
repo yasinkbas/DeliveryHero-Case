@@ -25,11 +25,7 @@ public extension LoadingShowable where Self: UIViewController {
     
     func hideLoading() {
         for view in view.subviews where view is LoadingView {
-            UIView.animate(withDuration: 0.3) {
-                view.alpha = 0
-            } completion: { completion in
-                view.removeFromSuperview()
-            }
+            view.removeFromSuperview()
         }
     }
 }

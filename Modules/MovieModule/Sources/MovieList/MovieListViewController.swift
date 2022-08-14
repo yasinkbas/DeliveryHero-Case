@@ -8,12 +8,14 @@
 
 import UIKit
 import CommonKit
-import CoreViewsKit
+import CommonViewsKit
 
 protocol MovieListViewInterface: EmptyViewShowable, LoadingShowable, AlertShowable {
     func prepareUI()
     func prepareHeaderView(height: Double)
-    func showMovieListPopularResult(with arguments: MovieListPopularResultPresenterArguments) -> MovieListPopularResultModule
+    func prepareMovieListPopularResult(with arguments: MovieListPopularResultPresenterArguments) -> MovieListPopularResultModule
+    func prepareMovieListSearchResult(with arguments: MovieListSearchResultPresenterArguments) -> MovieListSearchResultModule
+    func hideMovieListSearchResult()
 }
 
 private extension MovieListViewController {
@@ -57,7 +59,7 @@ final class MovieListViewController: UIViewController {
 extension MovieListViewController: MovieListViewInterface {
     var emptyViewPaddings: UIEdgeInsets {
         let topInset = headerView.get(.height).first?.constant ?? .zero
-        return .init(top: topInset, left: 0, bottom: 0, right: 0)
+        return .init(top: topInset, left: .zero, bottom: .zero, right: .zero)
     }
     
     var emptyViewArguments: EmptyViewPresenterArguments {
@@ -94,9 +96,23 @@ extension MovieListViewController: MovieListViewInterface {
         headerView.set(.height(height))
     }
     
-    func showMovieListPopularResult(with arguments: MovieListPopularResultPresenterArguments) -> MovieListPopularResultModule {
+    func prepareMovieListPopularResult(with arguments: MovieListPopularResultPresenterArguments) -> MovieListPopularResultModule {
         let (movieListPopularResultView, movieListPopularResultModule) = MovieListPopularResultRouter.createModule(arguments: arguments)
         embed(movieListPopularResultView, in: contentContainerView)
         return movieListPopularResultModule
+    }
+    
+    func prepareMovieListSearchResult(with arguments: MovieListSearchResultPresenterArguments) -> MovieListSearchResultModule {
+        let (movieListSearchResultView, movieListSearchResultModule) = MovieListSearchResultRouter.createModule(arguments: arguments)
+        embed(movieListSearchResultView, in: contentContainerView)
+        return movieListSearchResultModule
+    }
+    
+    func hideMovieListSearchResult() {
+        for childViewController in children where childViewController is MovieListSearchResultViewController {
+            childViewController.willMove(toParent: nil)
+            childViewController.view.removeFromSuperview()
+            childViewController.removeFromParent()
+        }
     }
 }
