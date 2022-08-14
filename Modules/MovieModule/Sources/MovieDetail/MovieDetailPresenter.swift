@@ -40,7 +40,7 @@ final class MovieDetailPresenter {
 // MARK: - MovieDetailPresenterInterface
 extension MovieDetailPresenter: MovieDetailPresenterInterface {
     var emptyViewMessage: String {
-        "Test - ID(\(arguments.id) Movie Detail Page"
+        "Test - ID(\(arguments.id)) Movie Detail Page"
     }
     
     func viewDidLoad() {
