@@ -7,17 +7,18 @@
 //
 
 import Foundation
+import CommonViewsKit
 
-public struct MovieResponse: Decodable {
-    public let id: Int?
-    public let title: String?
-    public let overview: String?
-    public let popularity: Double?
-    public let video: Bool?
-    public let originalTitle: String?
-    public let releaseDate: String?
-    public let voteAverage: Double?
-    public let voteCount: Int?
+struct MovieResponse: Decodable {
+    let id: Int?
+    let title: String?
+    let overview: String?
+    let popularity: Double?
+    let video: Bool?
+    let originalTitle: String?
+    let releaseDate: String?
+    let voteAverage: Double?
+    let voteCount: Int?
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -33,14 +34,20 @@ public struct MovieResponse: Decodable {
         case backdropPath = "backdrop_path"
     }
     
-    public let posterPath: String?
-    public let backdropPath: String?
+    let posterPath: String?
+    let backdropPath: String?
     
-    public var backdropUrl: String {
+    var backdropUrl: String {
         return "https://image.tmdb.org/t/p/w500\(backdropPath ?? "")"
     }
     
-    public var posterUrl: String {
+    var posterUrl: String {
         return "https://image.tmdb.org/t/p/w500\(posterPath ?? "")"
     }
+}
+
+extension MovieResponse: CoverPosterCardShowableModel {
+    var coverPosterTitle: String { title ?? "" }
+    var coverPosterSubtitle: String? { releaseDate }
+    var coverPosterImagePath: String { posterUrl }
 }

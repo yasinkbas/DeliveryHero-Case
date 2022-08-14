@@ -16,7 +16,7 @@ public protocol LoadingViewInterface: AnyObject {
 
 private extension LoadingView {
     enum Constant {
-        static let backgroundColor: UIColor = Colors.background
+        static let backgroundColor: UIColor = Colors.navigationBackground
         static let cornerRadius: CGFloat = 16
     }
 }

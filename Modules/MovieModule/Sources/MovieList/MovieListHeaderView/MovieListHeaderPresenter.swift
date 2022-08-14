@@ -16,7 +16,8 @@ protocol MovieListHeaderPresenterInterface: AnyObject {
 }
 
 protocol MovieListHeaderPresenterDelegate: AnyObject {
-    func searchButtonTapped(searchText: String)
+    func movieListHeaderSearchButtonTapped(searchText: String)
+    func movieListHeaderShrinkButtonTapped()
 }
 
 final class MovieListHeaderPresenter {
@@ -39,14 +40,14 @@ extension MovieListHeaderPresenter: MovieListHeaderPresenterInterface {
     }
     
     func doneIconTapped() {
-        searchContainerViewTapped()
-        delegate?.searchButtonTapped(searchText: searchText ?? .empty)
+        delegate?.movieListHeaderSearchButtonTapped(searchText: searchText ?? .empty)
     }
     
     func searchContainerViewTapped() {
         if searchIconIsExpanded {
             view?.hideSearchTextField()
             view?.setTextField(text: .empty)
+            delegate?.movieListHeaderShrinkButtonTapped()
         } else {
             view?.showSearchTextField()
         }

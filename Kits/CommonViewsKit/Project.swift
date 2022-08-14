@@ -1,6 +1,6 @@
 import ProjectDescription
 
-let projectName = "CoreViewsKit"
+let projectName = "CommonViewsKit"
 let organizationName = "com.yasinkbas"
 let bundleId = "\(organizationName).\(projectName)"
 
@@ -15,8 +15,8 @@ let project = Project(
             bundleId: bundleId,
             deploymentTarget: .iOS(targetVersion: "11.0", devices: [.iphone]),
             infoPlist: .default,
-            sources: ["Sources/**"],
-            resources: [],
+            sources: ["Sources/**/*.swift"],
+            resources: ["Sources/**/*.xcassets"],
             dependencies: [
                 .project(target: "CommonKit", path: .relativeToManifest("../../Kits/CommonKit")),
                 

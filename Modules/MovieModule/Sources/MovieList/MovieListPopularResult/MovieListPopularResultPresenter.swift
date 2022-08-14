@@ -8,6 +8,7 @@
 
 import Foundation
 import CommonKit
+import CommonViewsKit
 import NetworkManagerKit
 
 protocol MovieListPopularResultPresenterInterface: AnyObject {
@@ -17,7 +18,7 @@ protocol MovieListPopularResultPresenterInterface: AnyObject {
     
     func viewDidLoad()
     func willDisplayCell(indexPath: IndexPath)
-    func movieCellPresenterArguments(for indexPath: IndexPath) -> MovieListCellPresenterArguments
+    func movieCellPresenterArguments(for indexPath: IndexPath) -> CoverPosterCardCellPresenterArguments
 }
 
 protocol MovieListPopularResultPresenterDelegate: AnyObject {
@@ -87,8 +88,9 @@ extension MovieListPopularResultPresenter: MovieListPopularResultPresenterInterf
         }
     }
     
-    func movieCellPresenterArguments(for indexPath: IndexPath) -> MovieListCellPresenterArguments {
-        .init(movie: movies[indexPath.item])
+    func movieCellPresenterArguments(for indexPath: IndexPath) -> CoverPosterCardCellPresenterArguments {
+        let movie = movies[indexPath.item]
+        return .init(title: movie.title ?? "", secondaryTitle: movie.releaseDate ?? "", imageUrl: movie.backdropUrl)
     }
 }
 
