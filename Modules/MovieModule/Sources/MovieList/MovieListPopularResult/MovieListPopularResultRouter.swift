@@ -9,7 +9,7 @@
 import UIKit
 
 protocol MovieListPopularResultRouterInterface: AnyObject {
-    
+    func navigateToMovieDetail(with id: Int)
 }
 
 final class MovieListPopularResultRouter {
@@ -24,6 +24,9 @@ final class MovieListPopularResultRouter {
 
 // MARK: - MovieListPopularResultRouterInterface
 extension MovieListPopularResultRouter: MovieListPopularResultRouterInterface { 
-    
+    func navigateToMovieDetail(with id: Int) {
+        let viewController = MovieDetailRouter.createModule(arguments: .init(id: id))
+        UIApplication.shared.keyWindow?.rootViewController?.present(viewController, animated: true)
+    }
 }
 
