@@ -28,6 +28,7 @@ let appTarget = Target(
         
         // Internal Modules
         .project(target: "MovieModule", path: .relativeToManifest("Modules/MovieModule")),
+        .project(target: "PersonModule", path: .relativeToManifest("Modules/PersonModule"))
     ]
 )
 

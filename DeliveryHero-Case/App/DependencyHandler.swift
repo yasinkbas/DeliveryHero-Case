@@ -8,9 +8,11 @@
 
 import DependencyManagerKit
 import MovieModule
+import PersonModule
 
 final class DependencyHandler {
     func registerDependencies() {
         DependencyEngine.shared.register(value: MovieModule(), for: MovieModuleInterface.self)
+        DependencyEngine.shared.register(value: PersonModule(), for: PersonModuleInterface.self)
     }
 }
