@@ -9,7 +9,7 @@
 import Foundation
 
 public class NetworkConfigs {
-    static var themoviedbApiKey: String = "93f653399c6d77b90da1f3a2b87fb4a2"
+    static var themoviedbApiKey: String = ""
     
     public static func register(themoviedbApiKey: String) {
         Self.themoviedbApiKey = themoviedbApiKey

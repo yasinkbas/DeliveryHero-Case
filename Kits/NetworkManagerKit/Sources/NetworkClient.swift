@@ -9,8 +9,8 @@
 import Foundation
 import NLab
 
-final class NetworkClientHandler {
-    enum ClientType {
+public class NetworkClientHandler {
+    public enum ClientType {
         case themoviedb
         
         var baseUrl: URL {
@@ -18,12 +18,12 @@ final class NetworkClientHandler {
         }
     }
     
-    static func client(for client: ClientType) -> NLClient {
+    public static func client(for client: ClientType) -> NLClient {
         NLClient(baseURL: client.baseUrl)
     }
 }
 
-extension NLTaskPoint {
+public extension NLTaskPoint {
     func injectMovieDBApiKey() -> Self {
         addParameter(.init(name: "api_key", value: NetworkConfigs.themoviedbApiKey))
     }

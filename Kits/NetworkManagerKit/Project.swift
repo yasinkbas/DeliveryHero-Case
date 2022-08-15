@@ -18,6 +18,8 @@ let project = Project(
             sources: ["Sources/**"],
             resources: [],
             dependencies: [
+                .project(target: "CommonKit", path: .relativeToManifest("../../Kits/CommonKit")),
+                
                 .external(name: "NLab")
             ])
     ])
