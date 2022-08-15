@@ -86,8 +86,8 @@ extension MovieListSearchResultPresenter: MovieListSearchResultModule {
 
 // MARK: - MovieListSearchResultCellPresenterDelegate
 extension MovieListSearchResultPresenter: MovieListSearchResultCellPresenterDelegate {
-    func navigateToProductDetail(with id: Int) {
-        router.navigateToProductDetail(with: id)
+    func navigateToPersonDetail(with id: Int) {
+        router.navigateToPersonDetail(with: id)
     }
     
     func navigateToMovieDetail(with id: Int) {

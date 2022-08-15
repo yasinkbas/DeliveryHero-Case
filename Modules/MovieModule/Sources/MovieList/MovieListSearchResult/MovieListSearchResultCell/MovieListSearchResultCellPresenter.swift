@@ -20,7 +20,7 @@ protocol MovieListSearchResultCellPresenterInterface: AnyObject {
 }
 
 protocol MovieListSearchResultCellPresenterDelegate: AnyObject {
-    func navigateToProductDetail(with id: Int)
+    func navigateToPersonDetail(with id: Int)
     func navigateToMovieDetail(with id: Int)
 }
 
@@ -43,11 +43,11 @@ private extension MovieListSearchResultCellPresenter {
 }
 
 final class MovieListSearchResultCellPresenter {
-    private weak var view: MovieListSearchResultCellInterface?
+    private weak var view: MovieListSearchResultCellViewInterface?
     private let arguments: MovieListSearchResultCellPresenterArguments
     
     init(
-        view: MovieListSearchResultCellInterface,
+        view: MovieListSearchResultCellViewInterface,
         arguments: MovieListSearchResultCellPresenterArguments
     ) {
         self.view = view
@@ -71,7 +71,7 @@ final class MovieListSearchResultCellPresenter {
 // MARK: - MovieListSearchResultCellPresenterInterface
 extension MovieListSearchResultCellPresenter: MovieListSearchResultCellPresenterInterface {
     var sizeOfCell: (width: Double, height: Double) {
-        return size(for: arguments.widget)
+        size(for: arguments.widget)
     }
     
     var minimumInteritemSpacingForSectionAt: Double {
@@ -94,7 +94,7 @@ extension MovieListSearchResultCellPresenter: MovieListSearchResultCellPresenter
     func didSelectItemAt(indexPath: IndexPath) {
         if arguments.widget.widgetType == .people,
             let personId = arguments.widget.result[indexPath.item].coverPosterId {
-            arguments.delegate?.navigateToProductDetail(with: personId)
+            arguments.delegate?.navigateToPersonDetail(with: personId)
         } else if let movieId = arguments.widget.result[indexPath.item].coverPosterId {
             arguments.delegate?.navigateToMovieDetail(with: movieId)
         }
