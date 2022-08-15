@@ -1,9 +1,5 @@
 # DeliveryHero-Case
 
-### Important Note
-
-The project uses [themoviedb](https://www.themoviedb.org). To run the project, you need to define your API key under the APIKeys.plist file.
-
 ## Tech Stack
 
 - Xcode Version: 14 beta
