@@ -10,7 +10,7 @@ import UIKit
 import DependencyManagerKit
 
 protocol MovieListSearchResultRouterInterface: AnyObject {
-    func navigateToProductDetail(with id: Int)
+    func navigateToPersonDetail(with id: Int)
     func navigateToMovieDetail(with id: Int)
 }
 
@@ -28,7 +28,7 @@ final class MovieListSearchResultRouter {
 
 // MARK: - MovieListSearchResultRouterInterface
 extension MovieListSearchResultRouter: MovieListSearchResultRouterInterface { 
-    func navigateToProductDetail(with id: Int) {
+    func navigateToPersonDetail(with id: Int) {
         let viewController = personModule.personDetailViewController(for: id)
         UIApplication.shared.keyWindow?.rootViewController?.present(viewController, animated: true)
     }

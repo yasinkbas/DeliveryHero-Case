@@ -20,9 +20,9 @@ public protocol CoverPosterCardCellPresenterInterface: AnyObject {
 }
 
 public struct CoverPosterCardCellPresenterArguments {
-    let title: String
-    let secondaryTitle: String?
-    let imageUrl: String
+    public let title: String
+    public let secondaryTitle: String?
+    public let imageUrl: String
     
     public init(title: String, secondaryTitle: String?, imageUrl: String) {
         self.title = title

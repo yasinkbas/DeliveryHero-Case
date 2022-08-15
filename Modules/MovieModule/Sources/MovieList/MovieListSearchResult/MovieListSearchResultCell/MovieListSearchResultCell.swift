@@ -10,7 +10,7 @@ import UIKit
 import CommonKit
 import CommonViewsKit
 
-protocol MovieListSearchResultCellInterface: AnyObject {
+protocol MovieListSearchResultCellViewInterface: AnyObject {
     func prepareUI()
     func setTitleLabel(text: String)
 }
@@ -55,7 +55,7 @@ final class MovieListSearchResultCell: UICollectionViewCell {
 }
 
 // MARK: - MovieListSearchResultCellInterface
-extension MovieListSearchResultCell: MovieListSearchResultCellInterface {
+extension MovieListSearchResultCell: MovieListSearchResultCellViewInterface {
     func prepareUI() { 
         addSubview(headerContainerView)
         headerContainerView.set(.leadingOf(self), .topOf(self), .trailingOf(self), .height(30))

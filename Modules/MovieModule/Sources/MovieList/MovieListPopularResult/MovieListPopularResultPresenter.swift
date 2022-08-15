@@ -34,6 +34,7 @@ private extension MovieListPopularResultPresenter {
     enum Constants {
         static let heightOfCell: Double = 300
         static let minimumInteritemSpacingForSectionAt: Double = 20
+        static let paginationThreshold: Int = 4
     }
 }
 
@@ -83,7 +84,7 @@ extension MovieListPopularResultPresenter: MovieListPopularResultPresenterInterf
     }
     
     func willDisplayCell(indexPath: IndexPath) {
-        if totalPages > page && indexPath.item == movies.count - 4 {
+        if totalPages > page && indexPath.item == movies.count - Constants.paginationThreshold {
             page += 1
             arguments.delegate?.movieListPopularResultFetchPopularMovies(page: page)
         }

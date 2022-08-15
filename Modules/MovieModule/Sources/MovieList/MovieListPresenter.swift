@@ -85,7 +85,7 @@ final class MovieListPresenter {
         self.isIphoneXOrBigger = isIphoneXOrBigger
     }
     
-    func updateUI() {
+    private func updateUI() {
         switch state {
         case .empty:
             view?.hideLoading()
