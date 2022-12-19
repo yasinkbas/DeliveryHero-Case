@@ -14,7 +14,7 @@ public class PersonModule {
     public init() {}
 }
 
-// MARK: - MovieModuleInterface
+// MARK: - PersonModuleInterface
 extension PersonModule: PersonModuleInterface {
     public func personDetailViewController(for id: Int) -> UIViewController {
         PersonDetailRouter.createModule(arguments: .init(id: id))
